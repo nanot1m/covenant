@@ -1,0 +1,160 @@
+[gd_scene load_steps=16 format=3 uid="uid://ca6p688w5v7ng"]
+
+[ext_resource type="Script" uid="uid://b4kmgure66i4y" path="res://Scripts/player.gd" id="1_rpqav"]
+[ext_resource type="PackedScene" uid="uid://wmafcrlv764c" path="res://Scenes/Fire.tscn" id="2_5ixxa"]
+[ext_resource type="Texture2D" uid="uid://qceeh75lefhe" path="res://Sprites/Sword.png" id="2_gntrk"]
+[ext_resource type="Texture2D" uid="uid://dyssysustcnxa" path="res://Sprites/Mech.png" id="2_kyqiw"]
+[ext_resource type="Script" uid="uid://bcm2u1u0pgd65" path="res://Scripts/sword.gd" id="3_dewec"]
+[ext_resource type="Script" uid="uid://htamxjgunufm" path="res://Scripts/health_component.gd" id="4_health"]
+
+[sub_resource type="Gradient" id="Gradient_nn08x"]
+offsets = PackedFloat32Array(0, 0.78125, 0.8125, 0.96875, 1)
+colors = PackedColorArray(0, 0.5833335, 1, 0, 0.49256, 0.46060002, 0.94, 0, 1, 0, 0.016666412, 1, 1, 0, 0.016666412, 1, 0.45, 0.77083343, 1, 0)
+metadata/_snap_enabled = true
+metadata/_snap_count = 32
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_52ee3"]
+gradient = SubResource("Gradient_nn08x")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Gradient" id="Gradient_bhhdu"]
+offsets = PackedFloat32Array(0, 0.78125, 0.8125, 0.96875, 1)
+colors = PackedColorArray(0, 0.5833335, 1, 0, 0.49256, 0.46060002, 0.94, 0, 0, 0.61666656, 1, 1, 0, 0.61666656, 1, 1, 0.45, 0.77083343, 1, 0)
+metadata/_snap_enabled = true
+metadata/_snap_count = 32
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_megsn"]
+gradient = SubResource("Gradient_bhhdu")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qbkls"]
+size = Vector2(22, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gntrk"]
+atlas = ExtResource("2_kyqiw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dewec"]
+atlas = ExtResource("2_kyqiw")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ixxa"]
+atlas = ExtResource("2_kyqiw")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nn08x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gntrk")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dewec")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ixxa")
+}],
+"loop": true,
+"name": &"walking",
+"speed": 5.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_rpqav")
+dash_cooldown_time = 1.2
+parry_cooldown_time = 1.0
+
+[node name="UIElements" type="Node2D" parent="."]
+
+[node name="HealthMeter" type="TextureProgressBar" parent="UIElements"]
+modulate = Color(1, 1, 1, 0.5019608)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+fill_mode = 4
+radial_initial_angle = 180.0
+radial_fill_degrees = 180.0
+radial_center_offset = Vector2(-16, 0)
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture2D_52ee3")
+
+[node name="ParryCooldownMeter" type="TextureProgressBar" parent="UIElements"]
+modulate = Color(1, 1, 1, 0.5019608)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+fill_mode = 4
+radial_fill_degrees = 180.0
+radial_center_offset = Vector2(16, 0)
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture2D_megsn")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("4_health")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qbkls")
+
+[node name="RotatableObjects" type="Node2D" parent="."]
+
+[node name="FireGroup" type="CanvasGroup" parent="RotatableObjects"]
+
+[node name="Fire_1" parent="RotatableObjects/FireGroup" instance=ExtResource("2_5ixxa")]
+position = Vector2(6, 8)
+
+[node name="Fire_2" parent="RotatableObjects/FireGroup" instance=ExtResource("2_5ixxa")]
+position = Vector2(-6, 8)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="RotatableObjects"]
+sprite_frames = SubResource("SpriteFrames_nn08x")
+animation = &"walking"
+frame_progress = 0.8022124
+
+[node name="Sword" type="Node2D" parent="RotatableObjects"]
+rotation = 1.0471976
+script = ExtResource("3_dewec")
+swing_duration = 0.1
+start_angle = 60.0
+end_angle = -60.0
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="RotatableObjects/Sword"]
+position = Vector2(0, -20)
+rotation = -0.7853982
+scale = Vector2(0.6875, 0.6875)
+texture = ExtResource("2_gntrk")
