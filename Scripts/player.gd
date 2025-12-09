@@ -1,6 +1,9 @@
 extends CharacterBody2D
 class_name Player
 
+func _ready() -> void:
+	add_to_group("player")
+
 @export var walk_speed: float = 100.0
 @export var max_speed: float = 300.0
 @export var accel: float = 1200.0
@@ -81,3 +84,6 @@ func _physics_process(delta: float) -> void:
 	fireGroup.visible = is_gliding
 
 	move_and_slide()
+
+func take_damage(amount: float) -> void:
+	health_component.take_damage(amount)

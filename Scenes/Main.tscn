@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://bxkqehcafqeuv"]
+[gd_scene load_steps=6 format=4 uid="uid://bxkqehcafqeuv"]
 
 [ext_resource type="Texture2D" uid="uid://c0jpd1b7ggsm5" path="res://Sprites/tileset.png" id="1_idj7w"]
 [ext_resource type="PackedScene" uid="uid://ca6p688w5v7ng" path="res://Scenes/Player.tscn" id="1_r150o"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemy.tscn" id="3_kln2b"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kln2b"]
 texture = ExtResource("1_idj7w")
@@ -58,3 +59,15 @@ friction = 1200.0
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2, 2)
+
+[node name="Enemy6" parent="." instance=ExtResource("3_kln2b")]
+position = Vector2(225, -285)
+
+[node name="Enemy5" parent="." instance=ExtResource("3_kln2b")]
+position = Vector2(-232, -568)
+
+[node name="Enemy" parent="." instance=ExtResource("3_kln2b")]
+position = Vector2(-231, -337)
+
+[node name="Enemy2" parent="." instance=ExtResource("3_kln2b")]
+position = Vector2(233, -572)
